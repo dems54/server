@@ -45,6 +45,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
+use OCP\Share\IManager;
 use OCP\Share\IShareProvider;
 
 /**
@@ -195,7 +196,8 @@ class ProviderFactory implements IProviderFactory {
 				$settingsManager,
 				$this->serverContainer->query(Defaults::class),
 				$this->serverContainer->getHasher(),
-				$this->serverContainer->get(IEventDispatcher::class)
+				$this->serverContainer->get(IEventDispatcher::class),
+				$this->serverContainer->get(IManager::class)
 			);
 		}
 
