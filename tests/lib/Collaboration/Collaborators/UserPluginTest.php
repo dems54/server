@@ -166,7 +166,7 @@ class UserPluginTest extends TestCase {
 				],
 				[],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1'], 'shareWithDisplayNameUnique' => 'test1'],
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1'], 'shareWithDisplayNameUnique' => 'test2'],
 				],
 				true,
 				false,
