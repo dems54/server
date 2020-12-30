@@ -1775,7 +1775,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$calendarAnd->add($calendarObjectIdQuery->expr()->eq('cob.calendartype', $calendarObjectIdQuery->createNamedParameter(self::CALENDAR_TYPE_CALENDAR)));
 
 			// If it's shared, limit search to public events
-			if ($calendar['principaluri'] !== $calendar['{http://owncloud.org/ns}owner-principal']) {
+			if (isset($calendar['{http://owncloud.org/ns}owner-principal'])
+				&& $calendar['principaluri'] !== $calendar['{http://owncloud.org/ns}owner-principal']) {
 				$calendarAnd->add($calendarObjectIdQuery->expr()->eq('co.classification', $calendarObjectIdQuery->createNamedParameter(self::CLASSIFICATION_PUBLIC)));
 			}
 
@@ -1787,7 +1788,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$subscriptionAnd->add($calendarObjectIdQuery->expr()->eq('cob.calendartype', $calendarObjectIdQuery->createNamedParameter(self::CALENDAR_TYPE_SUBSCRIPTION)));
 
 			// If it's shared, limit search to public events
-			if ($subscription['principaluri'] !== $subscription['{http://owncloud.org/ns}owner-principal']) {
+			if (isset($subscription['{http://owncloud.org/ns}owner-principal'])
+				&& $subscription['principaluri'] !== $subscription['{http://owncloud.org/ns}owner-principal']) {
 				$subscriptionAnd->add($calendarObjectIdQuery->expr()->eq('co.classification', $calendarObjectIdQuery->createNamedParameter(self::CLASSIFICATION_PUBLIC)));
 			}
 
