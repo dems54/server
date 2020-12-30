@@ -390,8 +390,8 @@ class SCSSCacher {
 		$this->injectedVariables = null;
 
 		// do not clear locks
-		$this->cacheFactory->createDistributed('SCSS-deps-')->clear();
-		$this->cacheFactory->createDistributed('SCSS-cached-')->clear();
+		$this->depsCache->clear();
+		$this->isCachedCache->clear();
 
 		$appDirectory = $this->appData->getDirectoryListing();
 		foreach ($appDirectory as $folder) {
