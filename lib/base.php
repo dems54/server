@@ -623,6 +623,7 @@ class OC {
 		//try to set the maximum filesize to 10G
 		@ini_set('upload_max_filesize', '10G');
 		@ini_set('post_max_size', '10G');
+		@ini_set('file_uploads', 'On');
 
 		self::setRequiredIniValues();
 		self::handleAuthHeaders();
