@@ -40,6 +40,7 @@
 namespace OCP;
 
 use Doctrine\DBAL\Schema\Schema;
+use OCP\DB\IPreparedStatement;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 /**
@@ -68,10 +69,10 @@ interface IDBConnection {
 	 * @param string $sql the sql query with ? placeholder for params
 	 * @param int $limit the maximum number of rows
 	 * @param int $offset from which row we want to start
-	 * @return \Doctrine\DBAL\Driver\Statement The prepared statement.
+	 * @return IPreparedStatement The prepared statement.
 	 * @since 6.0.0
 	 */
-	public function prepare($sql, $limit = null, $offset = null);
+	public function prepare($sql, $limit = null, $offset = null): IPreparedStatement;
 
 	/**
 	 * Executes an, optionally parameterized, SQL query.

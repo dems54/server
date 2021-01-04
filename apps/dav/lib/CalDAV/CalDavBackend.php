@@ -1960,7 +1960,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		// Current synctoken
 		$stmt = $this->db->prepare('SELECT `synctoken` FROM `*PREFIX*calendars` WHERE `id` = ?');
 		$stmt->execute([ $calendarId ]);
-		$currentToken = $stmt->fetchColumn(0);
+		$currentToken = $stmt->fetchOne();
 
 		if (is_null($currentToken)) {
 			return null;

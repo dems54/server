@@ -863,7 +863,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		// Current synctoken
 		$stmt = $this->db->prepare('SELECT `synctoken` FROM `*PREFIX*addressbooks` WHERE `id` = ?');
 		$stmt->execute([$addressBookId]);
-		$currentToken = $stmt->fetchColumn(0);
+		$currentToken = $stmt->fetchOne();
 
 		if (is_null($currentToken)) {
 			return null;

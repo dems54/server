@@ -44,6 +44,7 @@ use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
+use OCP\DB\IPreparedStatement;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\ILogger;
@@ -181,9 +182,9 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	 * @param string $statement The SQL statement to prepare.
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \Doctrine\DBAL\Driver\Statement The prepared statement.
+	 * @return IPreparedStatement The prepared statement.
 	 */
-	public function prepare($statement, $limit = null, $offset = null) {
+	public function prepare($statement, $limit = null, $offset = null): IPreparedStatement {
 		if ($limit === -1) {
 			$limit = null;
 		}

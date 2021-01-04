@@ -97,7 +97,7 @@ abstract class AbstractMapping {
 
 		$res = $query->execute([$search]);
 		if ($res !== false) {
-			return $query->fetchColumn();
+			return $query->fetchOne();
 		}
 
 		return false;
