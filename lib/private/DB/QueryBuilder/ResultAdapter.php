@@ -50,17 +50,11 @@ class ResultAdapter implements IResult {
 		return true;
 	}
 
-	/**
-	 * @todo $cursorOrientation and $cursorOffset not used?!
-	 */
-	public function fetch($fetchMode = null, $cursorOrientation = PDO::FETCH_ORI_NEXT, $cursorOffset = 0) {
+	public function fetch($fetchMode = null) {
 		return $this->inner->fetch($fetchMode);
 	}
 
-	/**
-	 * @todo $cursorOrientation and $cursorOffset not used?!
-	 */
-	public function fetchAll($fetchMode = null, $fetchArgument = null, $ctorArgs = null): array {
+	public function fetchAll($fetchMode = null): array {
 		return $this->inner->fetchAll($fetchMode);
 	}
 

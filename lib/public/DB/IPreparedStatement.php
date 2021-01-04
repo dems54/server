@@ -41,7 +41,7 @@ interface IPreparedStatement {
 	public function closeCursor(): bool;
 
 	/**
-	 * @param null $fetchMode
+	 * @param int|null $fetchMode
 	 *
 	 * @return mixed
 	 *
@@ -50,7 +50,7 @@ interface IPreparedStatement {
 	public function fetch($fetchMode = null);
 
 	/**
-	 * @param null $fetchMode
+	 * @param int|null $fetchMode
 	 *
 	 * @return mixed[]
 	 *
