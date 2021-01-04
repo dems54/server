@@ -485,7 +485,7 @@ class Cache implements ICache {
 			->wherePath($file);
 
 		$result = $query->execute();
-		$id = $result->fetchColumn();
+		$id = $result->fetchOne();
 		$result->closeCursor();
 
 		return $id === false ? -1 : (int)$id;
@@ -745,7 +745,7 @@ class Cache implements ICache {
 			->wherePath($file);
 
 		$result = $query->execute();
-		$size = $result->fetchColumn();
+		$size = $result->fetchOne();
 		$result->closeCursor();
 
 		if ($size !== false) {
@@ -911,7 +911,7 @@ class Cache implements ICache {
 				->andWhere($query->expr()->lt('size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
 
 			$result = $query->execute();
-			$size = (int)$result->fetchColumn();
+			$size = (int)$result->fetchOne();
 			$result->closeCursor();
 
 			return $size;
@@ -1001,7 +1001,7 @@ class Cache implements ICache {
 			->setMaxResults(1);
 
 		$result = $query->execute();
-		$path = $result->fetchColumn();
+		$path = $result->fetchOne();
 		$result->closeCursor();
 
 		return $path;
@@ -1021,7 +1021,7 @@ class Cache implements ICache {
 			->whereFileId($id);
 
 		$result = $query->execute();
-		$path = $result->fetchColumn();
+		$path = $result->fetchOne();
 		$result->closeCursor();
 
 		if ($path === false) {

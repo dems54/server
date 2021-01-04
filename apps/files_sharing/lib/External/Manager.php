@@ -33,6 +33,7 @@
 
 namespace OCA\Files_Sharing\External;
 
+use Doctrine\DBAL\Driver\Exception;
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
 use OCA\Files_Sharing\Helper;
@@ -199,15 +200,17 @@ class Manager {
 	 * @param $remoteId
 	 * @param $parent
 	 * @param $shareType
-	 * @return bool
+	 *
+	 * @return void
+	 * @throws \Doctrine\DBAL\Driver\Exception
 	 */
-	private function writeShareToDb($remote, $token, $password, $name, $owner, $user, $mountPoint, $hash, $accepted, $remoteId, $parent, $shareType) {
+	private function writeShareToDb($remote, $token, $password, $name, $owner, $user, $mountPoint, $hash, $accepted, $remoteId, $parent, $shareType): void {
 		$query = $this->connection->prepare('
 				INSERT INTO `*PREFIX*share_external`
 					(`remote`, `share_token`, `password`, `name`, `owner`, `user`, `mountpoint`, `mountpoint_hash`, `accepted`, `remote_id`, `parent`, `share_type`)
 				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 			');
-		return $query->execute([$remote, $token, $password, $name, $owner, $user, $mountPoint, $hash, $accepted, $remoteId, $parent, $shareType]);
+		$query->execute([$remote, $token, $password, $name, $owner, $user, $mountPoint, $hash, $accepted, $remoteId, $parent, $shareType]);
 	}
 
 	/**
@@ -267,17 +270,22 @@ class Manager {
 				WHERE `id` = ? AND `user` = ?');
 				$userShareAccepted = $acceptShare->execute([1, $mountPoint, $hash, $id, $this->uid]);
 			} else {
-				$result = $this->writeShareToDb(
-					$share['remote'],
-					$share['share_token'],
-					$share['password'],
-					$share['name'],
-					$share['owner'],
-					$this->uid,
-					$mountPoint, $hash, 1,
-					$share['remote_id'],
-					$id,
-					$share['share_type']);
+				try {
+					$this->writeShareToDb(
+						$share['remote'],
+						$share['share_token'],
+						$share['password'],
+						$share['name'],
+						$share['owner'],
+						$this->uid,
+						$mountPoint, $hash, 1,
+						$share['remote_id'],
+						$id,
+						$share['share_type']);
+					$result = true;
+				} catch (Exception $e) {
+					$result = false;
+				}
 			}
 			if ($userShareAccepted === true) {
 				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'accept');
@@ -312,19 +320,24 @@ class Manager {
 			$this->processNotification($id);
 			$result = true;
 		} elseif ($share && (int)$share['share_type'] === IShare::TYPE_GROUP) {
-			$result = $this->writeShareToDb(
-				$share['remote'],
-				$share['share_token'],
-				$share['password'],
-				$share['name'],
-				$share['owner'],
-				$this->uid,
-				$share['mountpoint'],
-				$share['mountpoint_hash'],
-				0,
-				$share['remote_id'],
-				$id,
-				$share['share_type']);
+			try {
+				$this->writeShareToDb(
+					$share['remote'],
+					$share['share_token'],
+					$share['password'],
+					$share['name'],
+					$share['owner'],
+					$this->uid,
+					$share['mountpoint'],
+					$share['mountpoint_hash'],
+					0,
+					$share['remote_id'],
+					$id,
+					$share['share_type']);
+				$result = true;
+			} catch (Exception $e) {
+				$result = false;
+			}
 			$this->processNotification($id);
 		}
 

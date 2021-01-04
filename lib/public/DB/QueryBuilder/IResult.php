@@ -39,7 +39,7 @@ interface IResult {
 	public function closeCursor(): bool;
 
 	/**
-	 * @param null $fetchMode
+	 * @param int $fetchMode
 	 *
 	 * @return mixed
 	 *
@@ -48,7 +48,7 @@ interface IResult {
 	public function fetch($fetchMode = null);
 
 	/**
-	 * @param null $fetchMode
+	 * @param int $fetchMode
 	 *
 	 * @return mixed[]
 	 *

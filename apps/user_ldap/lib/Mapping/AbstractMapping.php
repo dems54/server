@@ -357,7 +357,7 @@ abstract class AbstractMapping {
 			->from($this->getTableName());
 		$cursor = $picker->execute();
 		$result = true;
-		while ($id = $cursor->fetchColumn(0)) {
+		while ($id = $cursor->fetchOne(0)) {
 			$preCallback($id);
 			if ($isUnmapped = $this->unmap($id)) {
 				$postCallback($id);
@@ -378,7 +378,7 @@ abstract class AbstractMapping {
 		$query = $qb->select($qb->func()->count('ldap_dn'))
 			->from($this->getTableName());
 		$res = $query->execute();
-		$count = $res->fetchColumn();
+		$count = $res->fetchOne();
 		$res->closeCursor();
 		return (int)$count;
 	}

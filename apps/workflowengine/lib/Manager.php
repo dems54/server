@@ -342,7 +342,7 @@ class Manager implements IManager {
 		$result = $qb->execute();
 
 		$this->operationsByScope[$scopeContext->getHash()] = [];
-		while ($opId = $result->fetchColumn(0)) {
+		while ($opId = $result->fetchOne()) {
 			$this->operationsByScope[$scopeContext->getHash()][] = (int)$opId;
 		}
 		$result->closeCursor();

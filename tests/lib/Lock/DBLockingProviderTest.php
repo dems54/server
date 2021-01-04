@@ -104,7 +104,7 @@ class DBLockingProviderTest extends LockingProvider {
 			->where($query->expr()->eq('key', $query->createNamedParameter($key)));
 
 		$result = $query->execute();
-		$rows = $result->fetchColumn();
+		$rows = $result->fetchOne();
 		$result->closeCursor();
 
 		return $rows;

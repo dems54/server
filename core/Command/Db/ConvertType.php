@@ -309,7 +309,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		$query->select($query->func()->count('*', 'num_entries'))
 			->from($table->getName());
 		$result = $query->execute();
-		$count = $result->fetchColumn();
+		$count = $result->fetchOne();
 		$result->closeCursor();
 
 		$numChunks = ceil($count / $chunkSize);

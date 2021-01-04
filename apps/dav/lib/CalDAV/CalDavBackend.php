@@ -255,7 +255,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 
 		$result = $query->execute();
-		$column = (int)$result->fetchColumn();
+		$column = (int)$result->fetchOne();
 		$result->closeCursor();
 		return $column;
 	}
@@ -1113,7 +1113,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->andWhere($q->expr()->eq('calendartype', $q->createNamedParameter($calendarType)));
 
 		$result = $q->execute();
-		$count = (int) $result->fetchColumn();
+		$count = (int) $result->fetchOne();
 		$result->closeCursor();
 
 		if ($count !== 0) {
@@ -2370,7 +2370,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->from($table)
 			->where($query->expr()->eq('id', $query->createNamedParameter($calendarId)));
 		$result = $query->execute();
-		$syncToken = (int)$result->fetchColumn();
+		$syncToken = (int)$result->fetchOne();
 		$result->closeCursor();
 
 		$query = $this->db->getQueryBuilder();
