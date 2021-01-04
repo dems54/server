@@ -41,6 +41,7 @@ namespace OCP;
 
 use Doctrine\DBAL\Schema\Schema;
 use OCP\DB\IPreparedStatement;
+use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 /**
@@ -83,10 +84,10 @@ interface IDBConnection {
 	 * @param string $sql The SQL query to execute.
 	 * @param string[] $params The parameters to bind to the query, if any.
 	 * @param array $types The types the previous parameters are in.
-	 * @return \Doctrine\DBAL\Driver\Statement The executed statement.
+	 * @return IResult The executed statement.
 	 * @since 8.0.0
 	 */
-	public function executeQuery($sql, array $params = [], $types = []);
+	public function executeQuery($sql, array $params = [], $types = []): IResult;
 
 	/**
 	 * Executes an SQL INSERT/UPDATE/DELETE query with the given parameters
@@ -228,6 +229,7 @@ interface IDBConnection {
 	 *
 	 * @return integer The last error code.
 	 * @since 8.0.0
+	 * @deprecated 21.0.0 doesn't return anything anymore
 	 */
 	public function errorCode();
 
@@ -236,6 +238,7 @@ interface IDBConnection {
 	 *
 	 * @return array The last error information.
 	 * @since 8.0.0
+	 * @deprecated 21.0.0 doesn't return anything anymore
 	 */
 	public function errorInfo();
 

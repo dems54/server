@@ -25,10 +25,8 @@ declare(strict_types=1);
 
 namespace OC\DB\QueryBuilder;
 
-use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Result;
-use OCP\DB\QueryBuilder\IResult;
-use PDO;
+use OCP\DB\IResult;
 
 /**
  * Adapts DBAL 2.6 API for DBAL 3.x for backwards compatibility of a leaked type
@@ -62,8 +60,8 @@ class ResultAdapter implements IResult {
 		return $this->inner->fetchOne();
 	}
 
-	public function execute($params = null): \Doctrine\DBAL\Driver\Result {
-		return $this->inner->execute($params);
+	public function fetchOne() {
+		return $this->inner->fetchOne();
 	}
 
 	public function rowCount(): int {

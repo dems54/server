@@ -43,8 +43,10 @@ use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use OC\DB\QueryBuilder\QueryBuilder;
+use OC\DB\QueryBuilder\ResultAdapter;
 use OC\SystemConfig;
 use OCP\DB\IPreparedStatement;
+use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\ILogger;
@@ -209,7 +211,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	 * @param array                                       $types  The types the previous parameters are in.
 	 * @param \Doctrine\DBAL\Cache\QueryCacheProfile|null $qcp    The query cache profile, optional.
 	 *
-	 * @return \Doctrine\DBAL\Driver\Statement The executed statement.
+	 * @return IResult The executed statement.
 	 *
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
@@ -217,7 +219,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 		$sql = $this->replaceTablePrefix($sql);
 		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
-		return parent::executeQuery($sql, $params, $types, $qcp);
+		return new ResultAdapter(parent::executeQuery($sql, $params, $types, $qcp));
 	}
 
 	public function executeUpdate($sql, array $params = [], array $types = []) {
@@ -400,6 +402,14 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 			$msg .= 'Driver Message = '.$errorInfo[2];
 		}
 		return $msg;
+	}
+
+	public function errorCode() {
+		return -1;
+	}
+
+	public function errorInfo() {
+		return null;
 	}
 
 	/**
